@@ -23,6 +23,16 @@ export default [
         name: 'Fizu térkép',
         id: 'statistics',
         path: '/statistics'
+    },
+    {
+        name: 'Belépés',
+        id: 'login',
+        path: '/login'
+    },
+    {
+        name: 'Regisztráció',
+        id: 'registration',
+        path: '/registration'
     }
 ]
 ;
