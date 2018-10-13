@@ -9,6 +9,7 @@ import survey from './pages/survey.vue';
 import statistics from './pages/statistics.vue';
 import login from './pages/login.vue';
 import registration from './pages/registration.vue';
+import profile from './pages/profile.vue';
 
 // router
 export default new VueRouter({
@@ -58,6 +59,11 @@ export default new VueRouter({
             name: 'login',
             path: '/login',
             component: login,
+        },
+        {
+            name: 'profil',
+            path: '/profil',
+            component: profile,
         }
    ],
    scrollBehavior (to, from, savedPosition) {

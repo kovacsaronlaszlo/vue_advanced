@@ -66,8 +66,13 @@ export default {
             DataService.SignIn({
                 email: this.email,
                 password: this.password
-            });
-            debugger;
+            }).then(
+                r => {
+                    this.$root.$data.user = Object.assign({}, r);
+                    this.$router.push({name:"profile"});
+                    debugger;
+                }
+            );
         }
     }
 }
