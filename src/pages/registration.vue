@@ -60,7 +60,6 @@
     </div>
 </template>
 <script>
-import DataService from "../DataService";
 
 export default {
     name: 'registration',
@@ -78,12 +77,11 @@ export default {
                 this.alerts.push('A két jelszó nem egyezik, kérlek javítsd!')
             }
 
-            DataService.SignUp({
+            this.$root.signUpAction({
                 email: this.email,
                 password: this.password
             }).then(
                 r => {
-                    this.$root.setUserMutation(r);
                     this.$router.push({name:"profile"});
                 }
             ).catch(err => {
