@@ -32,8 +32,8 @@
                                     <input v-model="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Jelszó még egyszer</label>
-                                    <input v-model="password2" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                    <label for="exampleInputPassword2">Jelszó még egyszer</label>
+                                    <input v-model="password2" type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
                                 </div>
 
 
@@ -60,6 +60,8 @@
     </div>
 </template>
 <script>
+import DataService from "../DataService";
+
 export default {
     name: 'registration',
     data() {
@@ -75,6 +77,18 @@ export default {
             if (this.password !== this.password2) {
                 this.alerts.push('A két jelszó nem egyezik, kérlek javítsd!')
             }
+
+            DataService.SignUp({
+                email: this.email,
+                password: this.password
+            }).then(
+                r => {
+                    this.$root.setUserMutation(r);
+                    this.$router.push({name:"profile"});
+                }
+            ).catch(err => {
+                this.alerts.push(err);
+            });
         }
     }
 }

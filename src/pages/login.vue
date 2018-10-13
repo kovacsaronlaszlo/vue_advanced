@@ -68,7 +68,7 @@ export default {
                 password: this.password
             }).then(
                 r => {
-                    this.$root.$data.user = Object.assign({}, r);
+                    this.$root.setUserMutation(r);
                     this.$router.push({name:"profile"});
                     debugger;
                 }

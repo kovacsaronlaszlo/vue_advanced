@@ -5,7 +5,7 @@ export const FIREBASE_URL = "https://my-vue-project-9b5f5.firebaseio.com";
 
 const apiKey = "AIzaSyDzrKKOwSuv3_ubA1PZ6FYl6zmXIMX1MZg";
 const signInUrl = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${apiKey}`;
-const signUnUrl = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${apiKey}`;
+const signUpUrl = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${apiKey}`;
 
 
 export default {
@@ -23,6 +23,23 @@ export default {
                 return r;
             })
             .catch(console.warn);
+    },
+
+    SignUp(email, password) {
+        return Axios.post(signUpUrl, {
+            "email": email,
+            "password": password,
+            "returnSecureToken": true
+        })
+            .then(r => r.data)
+            .then(r => {
+                console.log('signUp: ', r);
+                return r;
+            })
+            .catch(err => {
+                console.warn(err);
+                return Promise.reject(err.response.data.error.message);
+            });
     },
 
     // posts
