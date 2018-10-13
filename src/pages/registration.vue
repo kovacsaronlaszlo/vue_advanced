@@ -9,23 +9,31 @@
                         <div class="card-header h3">Regisztrácó</div>
                         <div class="card-body">
 
-                            <form>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Felhasználónév</label>
-                                    <input type="text" class="form-control" placeholder="Felhasználónév">
-                                </div>
+                            <div class="alert alert-danger" role="alert" v-if="alerts.length" >
+                                <ul>
+                                    <li v-for="a in alerts" :key="a">
+                                        {{ a }}
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <form @submit.prevent="registration()">
+                                <!--<div class="form-group">-->
+                                    <!--<label for="exampleInputEmail1">Felhasználónév</label>-->
+                                    <!--<input type="text" class="form-control" placeholder="Felhasználónév">-->
+                                <!--</div>-->
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                    <input v-model="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
                                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Jelszó</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                    <input v-model="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Jelszó még egyszer</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                    <input v-model="password2" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                                 </div>
 
 
@@ -36,7 +44,11 @@
                                 <!--</div>-->
 
                                 <div class="card-footer bg-transparent"></div>
-                                <a class="btn btn-primary btn-lg btn-block" href="index.html" role="button">Regisztráció</a>
+                                <button type="submit"
+                                        class="btn btn-primary btn-lg btn-block"
+                                        role="button">
+                                    Regisztráció
+                                </button>
                             </form>
 
                         </div>
@@ -50,5 +62,20 @@
 <script>
 export default {
     name: 'registration',
+    data() {
+        return {
+            email: '',
+            password: '',
+            password2: '',
+            alerts: []
+        };
+    },
+    methods: {
+        registration() {
+            if (this.password !== this.password2) {
+                this.alerts.push('A két jelszó nem egyezik, kérlek javítsd!')
+            }
+        }
+    }
 }
 </script>
