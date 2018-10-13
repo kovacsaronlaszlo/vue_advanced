@@ -1,12 +1,31 @@
-import Axios from 'axios';
+import Axios from "axios";
 
-export const BACKEND_URL =  'http://localhost:3000';
-export const FIREBASE_URL = 'https://my-vue-project-9b5f5.firebaseio.com';
+export const BACKEND_URL =  "http://localhost:3000";
+export const FIREBASE_URL = "https://my-vue-project-9b5f5.firebaseio.com";
+
+const apiKey = "AIzaSyDzrKKOwSuv3_ubA1PZ6FYl6zmXIMX1MZg";
+const signInUrl = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${apiKey}`;
+const signUnUrl = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${apiKey}`;
+
 
 export default {
 
-    // posts
+    // signin
+    SignIn(email, password) {
+        return Axios.post(signInUrl, {
+            "email": email,
+            "password": password,
+            "returnSecureToken": true
+        })
+            .then(r => r.data)
+            .then(r => {
+                console.log('loginApi: ', r);
+                return r;
+            })
+            .catch(console.warn);
+    },
 
+    // posts
     GetPosts() {
         return Axios.get(FIREBASE_URL + "/blogposts.json")
             .then(result => {
