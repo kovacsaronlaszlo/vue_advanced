@@ -11,7 +11,7 @@ const signUpUrl = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/si
 export default {
 
     // signin
-    Auth(email, password, isSignUp) {
+    Auth({email, password, isSignUp}) {
         return Axios.post(isSignUp ? signUpUrl : signInUrl, {
             "email": email,
             "password": password,
