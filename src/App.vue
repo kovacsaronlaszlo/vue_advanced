@@ -1,25 +1,25 @@
 <template>
-
     <div>
         <Navigation></Navigation>
 
-        <router-view></router-view>
+		<router-view></router-view>
 
         <Footer></Footer>
     </div>
-
 </template>
+
 <script>
-
-import Navigation from './componenets/Navigation.vue';
-import Footer from './componenets/Footer.vue';
-
+// components
+import Navigation from './components/Navigation.vue';
+import Footer from './components/Footer.vue';
 
 export default {
     name: 'App',
-    components:{
+
+    components: {
         Navigation,
         Footer
     }
 };
 </script>
+

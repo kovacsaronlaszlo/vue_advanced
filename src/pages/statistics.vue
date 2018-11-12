@@ -1,83 +1,94 @@
 <template>
     <div class="container my-5">
+
         <div class="mb-5">
-            <h3>Kitöltések száma munnkakörönként</h3>
-            <DoughnutChart :height="200" :chartData="jobFillData"></DoughnutChart>
+            <h2 class="mb-5">Kitöltések száma munkakörönként</h2>
+            <DoughnutChart :height="100" :chartData="fillJobData"></DoughnutChart>
         </div>
 
         <div class="mb-5">
-            <h3>Átlagfizetések munnkakörönként</h3>
-            <BarChart :height="200" :chartData="jobIncomeData" :options="barChartOptions"></BarChart>
+            <h2 class="mb-5">Átlagfizetések munkakörönként</h2>
+            <BarChart :height="100" :chartData="jobIncomeData" :options="barOptions"></BarChart>
         </div>
+
     </div>
 </template>
+
 <script>
 // data
 import DataService from '../DataService';
 
-// charts
-import BarChart from "../componenets/BarChart.vue";
-import DoughnutChart from "../componenets/DoughnutChart.vue";
+// chart
+import DoughnutChart from '../components/DoughnutChart.vue';
+import BarChart from '../components/BarChart.vue';
 
 export default {
     components: {
         DoughnutChart,
         BarChart
     },
+
     data() {
         return {
             rawData: [],
             defaultColors: [
                 'red',
-                'blue',
+                'purple',
                 'green',
                 'aqua',
-                'purple',
-                'pink',
-                'yellow'
+                'blue',
+                'yellow',
+                'pink'
             ]
         };
     },
+
     computed: {
-        jobFillData() {
+        fillJobData() {
+            // datasets
             let counts = this.jobs.map(job => {
                 const count = this.rawData.filter(response => {
-                   return response.job == job;
+                    return response.job == job;
                 }).length;
 
                 return count;
             });
 
+            // colors
+            let backgroundColor = this.defaultColors.slice(0, this.jobs.length);
+
             return {
                 labels: this.jobs,
                 datasets: [
                     {
-                        backgroundColor: this.defaultColors.slice(0, this.jobs.length),
+                        backgroundColor: backgroundColor,
                         data: counts
                     }
                 ]
             };
         },
-
         jobIncomeData() {
-            let datasets = this.jobs.map((job,index) => {
-               let responsesInJob = this.rawData.filter(response => {
+            // datasets
+            let datasets = this.jobs.map((job, index) => {
+                let responsesInJob = this.rawData.filter(response => {
                     return response.job == job;
-               });
+                });
 
-               let totalIncome = responsesInJob.map(response =>{
-                  return +response.income;
-               }).reduce((acc, income) => {
-                   return +acc + +income;
-               });
+                let incomes = responsesInJob
+                    .map(response => {
+                        return response.income;
+                    })
+                    .reduce((accumulator, income) => {
+                        return +accumulator + +income;
+                    });
 
-               let avgIncome = totalIncome / responsesInJob.length;
+                let avgIncome = incomes / responsesInJob.length;
 
-               return {
-                   label: job,
-                   backgroundColor: this.defaultColors[index],
-                   data: [avgIncome]
-               };
+                return {
+                    label: job,
+                    backgroundColor: this.defaultColors[index],
+                    data: [+avgIncome]
+                };
             });
 
             return {
@@ -85,31 +96,33 @@ export default {
             };
         },
 
+        // helper
         jobs() {
             let jobs = this.rawData.map(response => {
                 return response.job;
             });
 
             return jobs.filter((job, index) => {
-               return jobs.indexOf(job) == index;
+                return jobs.indexOf(job) == index;
             });
         },
-
-        barChartOptions() {
+        barOptions() {
             return {
                 scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
+                    yAxes: [
+                        {
+                            ticks: {
+                                beginAtZero: true
+                            }
                         }
-                    }]
+                    ]
                 }
-            }
+            };
         }
-
     },
+
     created() {
-        DataService.GetSurveyResponses().then(result => {
+        DataService.GetSurveyData().then(result => {
             this.rawData = Object.values(result);
         });
     }
