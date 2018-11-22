@@ -12,7 +12,7 @@
                 <label for="exampleInputEmail1">Add meg az email címed</label>
                 <input type="email" class="form-control" 
                     id="exampleInputEmail1" 
-                    placeholder="valami@email.com"
+                    placeholder="valami@valami.com"
                     v-model="email"
                 >
               </div>
@@ -20,7 +20,7 @@
                 <label for="exampleInputPassword1">Add meg a jelszavad</label>
                 <input type="password" class="form-control" 
                     id="exampleInputPassword1" 
-                    placeholder="Jelszó"
+                    placeholder="valami"
                     v-model="password"
                 >
                 <small class="form-text"><a href="#">Elfelejtetted a jelszavad?</a></small>
@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import { TYPES } from "../store.js";
+
 export default {
   name: "login",
   data() {
@@ -61,7 +63,7 @@ export default {
   methods: {
     login() {
       this.$store
-        .dispatch("signInAction", {
+        .dispatch(TYPES.actions.signIn, {
           email: this.email,
           password: this.password
         })
